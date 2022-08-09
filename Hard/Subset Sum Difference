@@ -1,0 +1,28 @@
+int totalSum=0;
+    for(int i=0;i<n;i++)
+    {
+        totalSum+=arr[i];
+    }
+    int k=totalSum;
+     vector<vector<bool>>dp(n,vector<bool>(k+1,0));
+    for(int i=0;i<n;i++) dp[i][0]= true;
+    if(arr[0]<=k)dp[0][arr[0]]=true;
+    for(int i=1;i<n;i++)
+    {
+        for(int j=1;j<=k;j++)
+        {
+            bool nt=dp[i-1][j];
+            bool t=false;
+            if(arr[i]<=j) t=dp[i-1][j-arr[i]];
+            dp[i][j]=t|nt;
+        }
+    }
+    int mini=1e9;
+    for(int s1=0;s1<=totalSum/2;s1++)
+    {
+        if(dp[n-1][s1]==true)
+        {
+            mini=min(mini,abs(totalSum-s1)-s1);
+        }
+    }
+    return mini;
